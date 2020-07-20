@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">News24x7</string>
+    <string-array name="news_category">
+        <item>Business</item>
+        <item>Sports</item>
+        <item>Technology</item>
+        <item>Health</item>
+        <item>Entertainment</item>
+        <item>Science</item>
+    </string-array>
+
+    <string-array name="country_code">
+
+        <item>in</item>
+        <item>us</item>
+        <item>ch</item>
+        <item>ru</item>
+        <item>ca</item>
+        <item>au</item>
+
+    </string-array>
+
+    <string-array name="country_name">
+
+        <item>India</item>
+        <item>United States</item>
+        <item>China</item>
+        <item>Russia</item>
+        <item>Canada</item>
+        <item>Australia</item>
+
+    </string-array>
+</resources>

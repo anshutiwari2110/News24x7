@@ -9,6 +9,6 @@ import retrofit2.http.QueryMap;
 public interface API_Interface {
 
     @GET("/v2/top-headlines")
-    Call<Result> getNews(@QueryMap Map<String, Object> options);
+    Call<String> getNews(@QueryMap Map<String, Object> options);
 
 }

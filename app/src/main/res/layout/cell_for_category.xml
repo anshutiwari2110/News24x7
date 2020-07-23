@@ -11,7 +11,7 @@
         android:id="@+id/tv_news_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:hint="News Category"
         />
 

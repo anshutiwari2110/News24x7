@@ -16,6 +16,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -95,41 +99,85 @@ public class MainActivity extends AppCompatActivity implements NewsCategoryAdapt
             }
         });
 
-        getNews("");
+        getNewsByCategory("");
     }
 
-    private void getNews(String category) {
+//    private void getNews(String category) {
+//        progressDialog.show();
+//        API_Interface api_interface = APIClient.getClient().create(API_Interface.class);
+//
+//        Map <String, Object> parameters = new HashMap<>();
+//
+//        parameters.put("sources","google-news");
+//        parameters.put("category" , category);
+//        parameters.put("apiKey" , "982679c1932a4c71a109373918d8efa4");
+//
+//
+//
+//        Call<Result> getCategoryNews = api_interface.getNews(parameters);
+//        getCategoryNews.enqueue(new Callback<Result>() {
+//            @Override
+//            public void onResponse(Call<Result> call, Response<Result> response) {
+//                Result responseValue = response.body();
+//                ArrayList<Articles> newsArticles = responseValue.articleList;
+//                adapter = new NewsAdapter(MainActivity.this, newsArticles);
+//                mRcNews.setAdapter(adapter);
+//                progressDialog.hide();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Result> call, Throwable t) {
+//                progressDialog.hide();
+//
+//            }
+//        });
+//    }
+    private void getNewsByCategory(String category){
         progressDialog.show();
         API_Interface api_interface = APIClient.getClient().create(API_Interface.class);
+        Map<String, Object> parameters = new HashMap<>();
 
-        Map <String, Object> parameters = new HashMap<>();
+        parameters.put("sources", "google-news");
+        parameters.put("category", category);
+        parameters.put("apiKey", "982679c1932a4c71a109373918d8efa4");
 
-        parameters.put("apiKey" , "982679c1932a4c71a109373918d8efa4");
-        parameters.put("category" , category);
-        parameters.put("sources","google-news");
-
-        Call<Result> getCategoryNews = api_interface.getNews(parameters);
-        getCategoryNews.enqueue(new Callback<Result>() {
+        Call<String> getNews = api_interface.getNews(parameters);
+        getNews.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                Result responseValue = response.body();
-                ArrayList<Articles> newsArticles = responseValue.articleList;
-                adapter = new NewsAdapter(MainActivity.this, newsArticles);
-                mRcNews.setAdapter(adapter);
+            public void onResponse(Call<String> call, Response<String> response) {
+                String responseValue = response.body();
+                ArrayList<Articles> articles = new ArrayList<>();
+
+                try {
+                    JSONObject responseObject = new JSONObject(responseValue);
+                    JSONArray articlesArray = responseObject.getJSONArray("articles");
+
+                    for (int i = 0;i<articlesArray.length();i++){
+                        Articles newArticles = Articles.parseJSONObject(articlesArray.optJSONObject(i));
+                        articles.add(newArticles);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 progressDialog.hide();
+
+                adapter = new NewsAdapter(MainActivity.this,articles);
+                mRcNews.setAdapter(adapter);
             }
 
             @Override
-            public void onFailure(Call<Result> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 progressDialog.hide();
-
             }
         });
+
+
     }
 
     @Override
     public void onNewsCategoryClicked(String category) {
-        getNews(category);
+        getNewsByCategory(category);
     }
 
     @Override

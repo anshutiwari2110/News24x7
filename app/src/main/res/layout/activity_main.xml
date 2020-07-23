@@ -63,16 +63,17 @@
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/search_tab" />
+            android:background="@drawable/bg_spinner" />
 
         <TextView
             android:id="@+id/tv_country_name"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@+id/spin_country"
-            android:background="@drawable/search_tab" />
+            android:background="@drawable/bg_spinner" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_news_category"
